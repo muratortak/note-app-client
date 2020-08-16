@@ -34,6 +34,8 @@ function Note(props) {
     type: props.note.type,
     title: props.note.title,
     note: props.note.note,
+    x: props.note.x,
+    y: props.note.y,
     // coord: {
     //   x: props.note.coord.x,
     //   y: props.note.coord.y,
@@ -50,80 +52,66 @@ function Note(props) {
     setField({ field: event.target.name, value: event.target.value });
   };
 
-  const { _id, type, title, note, coord, zIndex } = field;
+  const { _id, type, title, note, x, y, zIndex } = field;
 
-  let dragstate = {
-
-    activeDrags: 0,
-    deltaPosition: {
-      x: 0, y: 0,
-    },
-    controlledPosition: {
-      x: -400, y: 200,
-    },
-  };
-  const [activeDrags, setState] = useState(dragstate);
+  // let dragstate = {
+    
+  //   activeDrags: 0,
+  //   deltaPosition: {
+  //     x: 0, y: 0,
+  //   },
+  //   controlledPosition: {
+  //     x: -400, y: 200,
+  //   },
+  // };
+  // const [activeDrags, setState] = useState(dragstate);
 
   const locationRef = useRef(null);
   const locationZIndex = useRef(null);
 
-  useEffect(() => {
-    if (locationRef.current) {
-      // locationRef.current.style.transform = `translate(${coord.x}px, ${coord.y}px)`;
-      console.log('zIndex in useEffect: ', zIndex);
-      locationRef.current.style.zIndex = zIndex;
-    }
-  }, []);
+  // useEffect(() => {
+  //   if (locationRef.current) {
+  //     // locationRef.current.style.transform = `translate(${x}px, ${y}px)`;
+  //     console.log('zIndex in useEffect: ', zIndex);
+  //     locationRef.current.style.zIndex = zIndex;
+  //   }
+  // }, []);
 
-  const handleDrag = (e, ui) => {
-    const { x, y } = dragstate.deltaPosition;
-    setState({
-      activeDrags: {
-        x: x + ui.deltaX,
-        y: y + ui.deltaY,
-      },
-    });
-  };
+  // const handleDrag = (e, ui) => {
+  //   const { x, y } = dragstate.deltaPosition;
+  //   console.log("handle drag x: ", x)
+  //   console.log("handle drag y: ", y)
+  //   console.log("handle drag ui x: ", ui.deltaX)
+  //   console.log("handle drag ui y: ", ui.deltaY)
+  //   setState({
+  //     deltaPosition: {
+  //       x: x + ui.deltaX,
+  //       y: y + ui.deltaY,
+  //     },
+  //   });
+  // };
 
-  const onStart = () => {
-    setState({ activeDrags: ++dragstate.activeDrags });
-  };
+  // const onStart = () => {
+  //   console.log("x, y ", field.x, field.y)
+  //   setState({ activeDrags: ++dragstate.activeDrags });
+  // };
 
-  const onStop = () => {
-    console.log('props index: ', props.maxZIndex);
-    console.log('props _id: ', props.id);
-    // console.log('on Start on Click ?: ', props.maxZIndex);
-    let z = props.maxZIndex + 1;
-    // z++;
-    const newNote = {
-      id: props.id,
-      zIndex: z,
-      maxZIndex: z,
-    };
+  // const onStop = () => {
 
+  //   setState({activeDrags: --dragstate.activeDrags });
+  // };
 
-    props.dispatch(updateNoteZIndexFunc(newNote));
-    // setField( {zIndex: z} );
-    // let z = props.index + 1;
-    // props.setIndex(z);
+  // const onControlledDrag = (e, position) => {
+  //   console.log("on controlled drag;");
+  //   const { x, y } = position;
+  //   setState({ controlledPosition: { x, y } });
+  // };
 
-    setField({ field: zIndex, value: 5 });
-    console.log('z index after setfiled: ', zIndex);
-    // locationRef.current.style.zIndex = z;
-    // console.log('z index: ', locationRef.current.style.zIndex);
-
-    setState({activeDrags: --dragstate.activeDrags });
-  };
-
-  const onControlledDrag = (e, position) => {
-    const { x, y } = position;
-    setState({ controlledPosition: { x, y } });
-  };
-
-  const onControlledDragStop = (e, position) => {
-    onControlledDrag(e, position);
-    onStop();
-  };
+  // const onControlledDragStop = (e, position) => {
+  //   console.log("on controlled stop;");
+  //   onControlledDrag(e, position);
+  //   onStop();
+  // };
 
   const onResize = (event, { element, size, handle }) => {
     setSize({ width: size.width, height: size.height });
@@ -170,8 +158,8 @@ function Note(props) {
 
   
 
-  const dragHandlers = { onStart: onStart, onStop: onStop };
-  const { deltaPosition, controlledPosition } = dragstate;
+  // const dragHandlers = { onStart: onStart, onStop: onStop };
+  // const { deltaPosition, controlledPosition } = dragstate;
   const { width, height } = sizeEl;
   const renderMenu = (
     <Menu
@@ -192,8 +180,8 @@ function Note(props) {
   return (
   // <Grid>
   // <div ref={locationZIndex}>
-    <Draggable handle="strong" {...dragHandlers} ref={locationZIndex}>
-      <div className="box no-cursor" ref={locationRef} style={{zIndex: zIndex}}>
+    <Draggable handle="strong" defaultPosition={{x: field.x, y: field.y}} ref={locationZIndex}>
+      <div className="box no-cursor" ref={locationRef} style={{ zIndex: zIndex }}>
         <strong className="cursor">
           <div style={{backgroundColor: '#b23c17', color: '#ffffff', textAlign: 'center', minWidth: '230px', width: width + 'px', display: 'inline-block'}}>
             <span style={{float: 'left'}}>
