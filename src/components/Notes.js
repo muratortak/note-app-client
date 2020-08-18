@@ -24,25 +24,18 @@ const useStyles = makeStyles((theme) => ({
 
 const Notes = (props) => {
 
-  // const initialState = {
-  //   maxZIndex: 0,
-  // };
-
-  // const [state, setState ] = useState(initialState);
   const classes = useStyles();
   const { notes } = props;
   console.log('Notes i Notes : ', notes);
   useEffect(() => {
     console.log('notes useEffect');
     props.dispatch(getAllNotes());
-    // setState({ maxZIndex });
   }, []);
 
   const handleChange = (newIndex) => {
     // setState({ index: newIndex });
   };
 
-  // const { index } = state;
   return (
     <Grid>
       <Grid md={12}>

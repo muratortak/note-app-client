@@ -20,7 +20,7 @@ const addNewNote = () => ({
 });
 
 const addNewNoteSuccess = (newNote) => ({
-  type: noteConstants.ADD_NEW_NOTE,
+  type: noteConstants.ADD_NEW_NOTE_SUCCESS,
   payload: newNote,
 });
 
@@ -68,9 +68,11 @@ export function getAllNotes() {
 export function addNewNoteFunc(notes) {
   const newNotes = notes.map((arr) => arr);
   newNotes.unshift(EmptyNote);
+  console.log("New notes in: ", newNotes);
   return (dispatch) => {
     dispatch(addNewNote());
     dispatch(addNewNoteSuccess(newNotes));
+    console.log("new notes after add new note success: ", newNotes);
   };
 }
 

@@ -5,7 +5,7 @@ import { logout } from '../actions/user.actions';
 import { getMe } from '../actions/user.actions';
 
 function UserProfile(props) {
-  console.log("Props in user profile: ", props.user.user.image);
+  // console.log("Props in user profile: ", props.user.user.image);
   return (
     <Grid>
       <Grid>

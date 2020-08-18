@@ -9,6 +9,7 @@ import * as noteAction from '../actions/notes.actions';
 function NotePanel(props) {
 
   const addNote = () => {
+    console.log("props in note panel: ", props.notes)
     props.dispatch(noteAction.addNewNoteFunc(props.notes));
   };
 

@@ -11,17 +11,13 @@ function ProtectedRoute({compoenent: Component, ...rest}) {
     //     rest.dispatch(getMe());
     // }, [])
     console.log('res user token in protected route: ', rest);
-    // if(rest.user.user.token === undefined) {
-    //     return <Route render= {(props) => <Redirect to={{pathname: "/",state: {from: props.location}}} />} />
-               
-        
-        
-        
-    // } else {
+    if(rest.user.user === undefined) {
+        return <Route render= {(props) => <Redirect to={{pathname: "/",state: {from: props.location}}} />} />
+    } else if(rest.user.user.token !== undefined) {
         return <div><NavbarLogedInd /> <Route {...rest} render= {
                     (props) => <Component {...props} {...rest}/>
         } /></div>
-    // } 
+    } 
 }
 
 const mapStateToProps = (state) => {

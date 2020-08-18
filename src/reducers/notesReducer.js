@@ -20,8 +20,14 @@ export default function notesReducer(state = initialState, action) {
       return { ...state, loading: false, hasError: true };
     case actions.ADD_NEW_NOTE:
       return {
-        notes: action.payload.notes,
-        maxZIndex: action.payload.maxZIndex,
+        ...state,
+        loading: true,
+        hasError: false,
+      };
+    case actions.ADD_NEW_NOTE_SUCCESS:
+      console.log("action payload in reducers: ", action.payload)
+      return {
+        notes: action.payload,
         loading: false,
         hasError: false,
       };

@@ -19,7 +19,7 @@ import '../helpers/style.css';
 // FIXME: Put the focus on the selected note. Some notes stay behind of others. Find a way to fix this on mouseclick.
 
 function reducer(state, {field, value}) {
-  // console.log("REDUCER: ", field, value);
+  console.log("REDUCER: ", field, value);
   return {
     ...state,
     [field]: value,
@@ -36,13 +36,14 @@ function Note(props) {
     note: props.note.note,
     x: props.note.x,
     y: props.note.y,
-    // coord: {
-    //   x: props.note.coord.x,
-    //   y: props.note.coord.y,
-    // },
     zIndex: props.note.zIndex,
   };
-  console.log('Note Refresh');
+
+  // var initialX = {inX: props.note.x}
+  // var initialY = {inY: props.note.y};
+  // var inXnew = 0;
+  // var inYnew = 0;
+  // console.log('Note Refresh: ', initialX, initialY);
   const [field, setField] = useReducer(reducer, initialState);
   const [sizeEl, setSize] = useState(stateResize);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -52,66 +53,14 @@ function Note(props) {
     setField({ field: event.target.name, value: event.target.value });
   };
 
-  const { _id, type, title, note, x, y, zIndex } = field;
+  useEffect(() => {
+    locationRef.current.style.transform = `translate(${field.x}px, ${field.y}px)`;
+  }, []);
 
-  // let dragstate = {
-    
-  //   activeDrags: 0,
-  //   deltaPosition: {
-  //     x: 0, y: 0,
-  //   },
-  //   controlledPosition: {
-  //     x: -400, y: 200,
-  //   },
-  // };
-  // const [activeDrags, setState] = useState(dragstate);
+  const { _id, type, title, note, x, y, zIndex } = field;
 
   const locationRef = useRef(null);
   const locationZIndex = useRef(null);
-
-  // useEffect(() => {
-  //   if (locationRef.current) {
-  //     // locationRef.current.style.transform = `translate(${x}px, ${y}px)`;
-  //     console.log('zIndex in useEffect: ', zIndex);
-  //     locationRef.current.style.zIndex = zIndex;
-  //   }
-  // }, []);
-
-  // const handleDrag = (e, ui) => {
-  //   const { x, y } = dragstate.deltaPosition;
-  //   console.log("handle drag x: ", x)
-  //   console.log("handle drag y: ", y)
-  //   console.log("handle drag ui x: ", ui.deltaX)
-  //   console.log("handle drag ui y: ", ui.deltaY)
-  //   setState({
-  //     deltaPosition: {
-  //       x: x + ui.deltaX,
-  //       y: y + ui.deltaY,
-  //     },
-  //   });
-  // };
-
-  // const onStart = () => {
-  //   console.log("x, y ", field.x, field.y)
-  //   setState({ activeDrags: ++dragstate.activeDrags });
-  // };
-
-  // const onStop = () => {
-
-  //   setState({activeDrags: --dragstate.activeDrags });
-  // };
-
-  // const onControlledDrag = (e, position) => {
-  //   console.log("on controlled drag;");
-  //   const { x, y } = position;
-  //   setState({ controlledPosition: { x, y } });
-  // };
-
-  // const onControlledDragStop = (e, position) => {
-  //   console.log("on controlled stop;");
-  //   onControlledDrag(e, position);
-  //   onStop();
-  // };
 
   const onResize = (event, { element, size, handle }) => {
     setSize({ width: size.width, height: size.height });
@@ -156,10 +105,6 @@ function Note(props) {
 
   const menuId = 'secondary-search-account-menu';
 
-  
-
-  // const dragHandlers = { onStart: onStart, onStop: onStop };
-  // const { deltaPosition, controlledPosition } = dragstate;
   const { width, height } = sizeEl;
   const renderMenu = (
     <Menu
@@ -180,7 +125,7 @@ function Note(props) {
   return (
   // <Grid>
   // <div ref={locationZIndex}>
-    <Draggable handle="strong" defaultPosition={{x: field.x, y: field.y}} ref={locationZIndex}>
+    <Draggable handle="strong" >
       <div className="box no-cursor" ref={locationRef} style={{ zIndex: zIndex }}>
         <strong className="cursor">
           <div style={{backgroundColor: '#b23c17', color: '#ffffff', textAlign: 'center', minWidth: '230px', width: width + 'px', display: 'inline-block'}}>
