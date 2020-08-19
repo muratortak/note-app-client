@@ -8,6 +8,7 @@ const userLogin = () => ({
 
 const userLoginSuccess = (user) => ({
   type: userConstants.USER_LOGIN_SUCCESS,
+  // type: userConstants.GET_NOTES_SUCCESS,
   payload: user,
 });
 
@@ -28,6 +29,10 @@ const userLogoutSuccess = () => ({
 const userLogoutFailure = () => ({
   type: userConstants.USER_LOGOUT_FAILURE,
 });
+
+const clearNotes = () => ({
+  type: userConstants.CLEAR_NOTE
+})
 
 const userGetMe = (user) => ({
   type: userConstants.USER_GET_ME,
@@ -75,6 +80,7 @@ export function logout() {
     try {
       await userService.logout();
       dispatch(userLogoutSuccess());
+      dispatch(clearNotes());
       history.push('/');
     } catch (err) {
       console.log(err);

@@ -8,7 +8,7 @@ export async function getAllNotes() {
     notes = await response.text();
     notes = JSON.parse(notes);
     notes = notes.notesReturn;
-    console.log('notes in service ', notes);
+    // console.log('notes in service ', notes);
   } catch (err) {
     console.log(err);
   }

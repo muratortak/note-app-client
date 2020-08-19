@@ -10,7 +10,7 @@ function ProtectedRoute({compoenent: Component, ...rest}) {
     // useEffect(() => {
     //     rest.dispatch(getMe());
     // }, [])
-    console.log('res user token in protected route: ', rest);
+    // console.log('res user token in protected route: ', rest);
     if(rest.user.user === undefined) {
         return <Route render= {(props) => <Redirect to={{pathname: "/",state: {from: props.location}}} />} />
     } else if(rest.user.user.token !== undefined) {

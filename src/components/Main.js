@@ -5,6 +5,7 @@ import UserProfile from './UserProfile';
 import Notes from './Notes';
 import NotePanel from './NotePanel';
 import { getMe } from '../actions/user.actions';
+import { getAllNotes } from '../actions/notes.actions';
 
 
 // TODO: Add a new section called 'EXPLORE' to see notes shared by others. Filtering by category.
@@ -13,6 +14,13 @@ function Main(props) {
   // useEffect(() => {
   //   props.dispatch(getMe());
   // }, []);
+
+    // console.log('Notes i Notes : ', notes);
+  // useEffect(() => {
+  //   console.log('notes useEffect in main');
+  //   props.dispatch(getAllNotes());
+  // }, []);
+
 
   return (
     <Grid>
@@ -32,6 +40,7 @@ function Main(props) {
 const mapStateToProps = (state) => {
   return {
     user: state.user.user,
+    notes: state.note.notes,
     loading: state.user.loading,
     hasErrors: state.user.hasErrors,
   };

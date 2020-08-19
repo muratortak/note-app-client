@@ -15,9 +15,9 @@ function NotePanel(props) {
 
   return (
     <Grid style={{ width: '100%', height: '5%', backgroundColor: '#f6734b', marginBottom: '25px' }}>
-      <Fab size="small" color="secondary" aria-label="add">
+      {/* <Fab size="small" color="secondary" aria-label="add">
         <AddIcon onClick={addNote} />
-      </Fab>
+      </Fab> */}
     </Grid>
   );
 }

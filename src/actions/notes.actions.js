@@ -56,7 +56,7 @@ export function getAllNotes() {
     dispatch(getNotes());
     try {
       const notes = await noteService.getAllNotes();
-      console.log('notes in actions: ', notes);
+      // console.log('notes in actions: ', notes);
       dispatch(getNotesSuccess({ notes, maxZIndex: notes[0].maxZIndex }));
     } catch (err) {
       console.log('get all notes error: ', err);
@@ -65,14 +65,14 @@ export function getAllNotes() {
   };
 }
 
-export function addNewNoteFunc(notes) {
-  const newNotes = notes.map((arr) => arr);
-  newNotes.unshift(EmptyNote);
-  console.log("New notes in: ", newNotes);
+export function addNewNoteFunc() {
+  // const newNotes = notes.map((arr) => arr);
+  // newNotes.unshift(EmptyNote);
+  // console.log("New notes in: ", newNotes);
   return (dispatch) => {
     dispatch(addNewNote());
-    dispatch(addNewNoteSuccess(newNotes));
-    console.log("new notes after add new note success: ", newNotes);
+    dispatch(addNewNoteSuccess(EmptyNote));
+    // console.log("new notes after add new note success: ", newNotes);
   };
 }
 

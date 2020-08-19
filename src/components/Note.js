@@ -122,6 +122,9 @@ function Note(props) {
     </Menu>
   );
 
+  // console.log("TYPE: ", {type});
+  // console.log("TITLE: ", {title});
+  // console.log("NOTE: ", {note});
   return (
   // <Grid>
   // <div ref={locationZIndex}>
