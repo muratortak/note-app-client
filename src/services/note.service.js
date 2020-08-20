@@ -36,7 +36,7 @@ export async function saveLocation(note) {
   console.log("inside service before try: ", note);
   try {
     console.log("inside service try before axios call: ", note);
-    result = await fetch('http://localhost:3000/savelocation', 
+    let response = await fetch('http://localhost:3000/savelocation', 
       {
         method: 'POST', 
         mode: 'cors', 
@@ -46,9 +46,57 @@ export async function saveLocation(note) {
       }
     );
     console.log("inside service inside try: ", result);
+    result = await response.text();
+    result = JSON.parse(result);
+    result = result.notesReturn;
   } catch (err) {
     console.log('error in savelocation in Note Service', err)
   }
 
+  return result;
+}
+
+export async function saveNewNote(note) {
+  let result; 
+  try {
+    let response = await fetch('http://localhost:3000/addNote', 
+      {
+        method: 'POST', 
+        mode: 'cors', 
+        credentials: 'include', 
+        headers: {'Content-Type': 'application/json'}, 
+        body: JSON.stringify(note)
+      }
+    );
+    result = await response.text();
+    result = JSON.parse(result);
+    result = result.notesReturn;
+  } catch(err) {
+    console.log("Error while saving a new note: ", err);
+  }
+  console.log("result in note service save  new note: ", result);
+  return result;
+}
+
+
+
+export async function deleteNote(noteID) {
+  let result; 
+  try {
+    let response = await fetch('http://localhost:3000/deleteNote/' + noteID, 
+      {
+        method: 'GET', 
+        mode: 'cors', 
+        credentials: 'include', 
+        headers: {'Content-Type': 'application/json'},
+      }
+    );
+    result = await response.text();
+    result = JSON.parse(result);
+    result = result.notesReturn;
+  } catch(err) {
+    console.log("Error while saving a new note: ", err);
+  }
+  console.log("result in note service save  new note: ", result);
   return result;
 }

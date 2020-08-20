@@ -6,7 +6,7 @@ import TextField from '@material-ui/core/TextField';
 import Draggable from 'react-draggable';
 import { Resizable } from 'react-resizable';
 import ControlCameraIcon from '@material-ui/icons/ControlCamera';
-import { updateNoteZIndexFunc, saveNoteLocationFunc } from '../actions/notes.actions';
+import { saveNewNoteFunc, deleteNoteFunc, saveNoteLocationFunc } from '../actions/notes.actions';
 
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
 // import '../../../nodecss/styles.css';
@@ -19,7 +19,6 @@ import '../helpers/style.css';
 // FIXME: Put the focus on the selected note. Some notes stay behind of others. Find a way to fix this on mouseclick.
 
 function reducer(state, {field, value}) {
-  console.log("REDUCER: ", field, value);
   return {
     ...state,
     [field]: value,
@@ -38,12 +37,7 @@ function Note(props) {
     y: props.note.y,
     zIndex: props.note.zIndex,
   };
-
-  // var initialX = {inX: props.note.x}
-  // var initialY = {inY: props.note.y};
-  // var inXnew = 0;
-  // var inYnew = 0;
-  // console.log('Note Refresh: ', initialX, initialY);
+  
   const [field, setField] = useReducer(reducer, initialState);
   const [sizeEl, setSize] = useState(stateResize);
   const [anchorEl, setAnchorEl] = useState(null);
@@ -89,19 +83,37 @@ function Note(props) {
 
   
   const saveLocation = (event) => {
-    console.log('location Ref: ', locationRef);
-    let style = locationRef.current.style.transform;
-    console.log('transform: ', style);
-    let x = style.substring(style.indexOf('(') + 1, style.indexOf('px,'));
-    let y = style.substring(style.indexOf('px,') + 3, style.indexOf('px)'));
-    console.log('save location: ', x, y);
+    var coord = getNoteLocation(event);
+    console.log('save location: ', coord.x, coord.y);
     const noteLocation = {
       noteID: field._id,
-      x,
-      y
+      x: coord.x,
+      y: coord.y
     }
     props.dispatch(saveNoteLocationFunc(noteLocation));
   };
+
+  const saveNote = (event) => {
+    var coord = getNoteLocation(event);
+    field.x = coord.x;
+    field.y = coord.y;
+    var newNote = field;
+    props.dispatch(saveNewNoteFunc(newNote));
+  }
+
+  const deleteNote = () => {
+    console.log("Delete action triggered.");
+    var noteID = field._id;
+    props.dispatch(deleteNoteFunc(noteID));
+  }
+
+  const getNoteLocation = (event) => {
+    console.log("field on save content: ", field);
+    let style = locationRef.current.style.transform;
+    let x = style.substring(style.indexOf('(') + 1, style.indexOf('px,'));
+    let y = style.substring(style.indexOf('px,') + 3, style.indexOf('px)'));
+    return {x, y}
+  }
 
   const menuId = 'secondary-search-account-menu';
 
@@ -118,16 +130,12 @@ function Note(props) {
       style={{ marginLeft: '-15px' }}
     >
       <MenuItem onClick={saveLocation}>Save Location</MenuItem>
-      <MenuItem onClick={handleMenuClose}>Save Content</MenuItem>
+      <MenuItem onClick={saveNote}>Save Note</MenuItem>
+      <MenuItem onClick={deleteNote}>Delete Note</MenuItem>
     </Menu>
   );
 
-  // console.log("TYPE: ", {type});
-  // console.log("TITLE: ", {title});
-  // console.log("NOTE: ", {note});
   return (
-  // <Grid>
-  // <div ref={locationZIndex}>
     <Draggable handle="strong" >
       <div className="box no-cursor" ref={locationRef} style={{ zIndex: zIndex }}>
         <strong className="cursor">
@@ -175,7 +183,6 @@ function Note(props) {
         {renderMenu}
       </div>
     </Draggable>
-    // </div>
   );
 }
 
