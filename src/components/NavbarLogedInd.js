@@ -154,7 +154,7 @@ function NavbarLogedInd(props) {
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
-      tranformOrigin={{ vertical: 'top', horizontal: 'right' }}
+      // tranformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
@@ -211,30 +211,39 @@ function NavbarLogedInd(props) {
         BackdropProps={{
           timeout: 500,
         }}
-      >
-        <Fade in={open}>
-          <div className={classes.paper} >
-            {/* <h2 id="transition-modal-title">Transition modal</h2>
-            <p id="transition-modal-description">react-transition-group animates me.</p> */}
-            <ProfileEdit />
-          </div>
-        </Fade>
-      </Modal>
+    >
+      <Grid item xl={4} lg={4} md={4} sm={4} xs={4}>
+        <Grid className={classes.paper} item xl={12} lg={12} md={12} sm={12} xs={12} style={{paddingRight: '0px'}}>
+          <Fade in={open}>
+              <ProfileEdit />
+          </Fade>
+        </Grid>
+      </Grid>
+    </Modal>
   )
 
-  return (
-    // <div>
-    //   <AppBar style={{ position: 'relative', marginBottom: '25px', justifyContent: 'center' }}>
-    //     <ToolBar style={{ justifyContent: 'center' }}>
-    //       <div className={classes.root}>
-    //         <Button variant="contained" color="secondary" component={Link} to="/main">Main</Button>
-    //         <Button variant="contained" color="secondary" component={Link} to="/settings">Settings</Button>
-    //         <Button variant="contained" color="secondary" onClick={handleLogout}>Logout</Button>
-    //       </div>
-    //     </ToolBar>
-    //   </AppBar>
-    // </div>
+  // const renderNewProfile = (
+  //   <Modal
+  //       aria-labelledby="transition-modal-title"
+  //       aria-describedby="transition-modal-description"
+  //       className={classes.modal}
+  //       open={open}
+  //       onClose={handleProfileClose}
+  //       closeAfterTransition
+  //       BackdropComponent={Backdrop}
+  //       BackdropProps={{
+  //         timeout: 500,
+  //       }}
+  //   >
+  //     <Fade in={open}>
+  //       <div className={classes.paper} >
+  //         <UpdateProfile />
+  //       </div>
+  //     </Fade>
+  //   </Modal>
+  // );
 
+  return (
     <div className={classes.grow}>
     <AppBar style={{ backgroundColor:'#ff5722', color: 'white', position: 'relative', marginBottom: '25px', justifyContent: 'center' }}>
       <Toolbar>

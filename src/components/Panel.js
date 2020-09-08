@@ -7,8 +7,23 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import styled from 'styled-components';
 import FormSignup from './FormSignup';
 import FormLogin from './FormLogin';
+
+const StyledTabs = styled(Tabs)`
+  color: #b23c17;
+`;
+
+const StyledDivForgotPwd = styled.div`
+  background-color: lightgrey;
+  margin-bottom: 0px;
+  margin-top: 15px;
+  border-bottom-left-radius: 7px;
+  border-bottom-right-radius: 7px;
+  padding: 20px;
+  text-align: center;
+`;
 
 function TabPanel(props) {
   const { children, value, index, ...other } = props;
@@ -43,16 +58,7 @@ function a11yProps(index) {
   };
 }
 
-const useStyles = makeStyles((theme) => ({
-  root: {
-    backgroundColor: theme.palette.background.paper,
-    color: '#b23c17',
-    width: '100%',
-  },
-}));
-
 export default function FullWidthTabs() {
-  const classes = useStyles();
   const theme = useTheme();
   const [value, setValue] = React.useState(0);
 
@@ -65,21 +71,16 @@ export default function FullWidthTabs() {
   };
 
   return (
-    <div className={classes.root}>
+    <div>
       <AppBar position="static" color="default">
-        <Tabs
+        <StyledTabs
           value={value}
           onChange={handleChange}
-        //   indicatorColor="primary"
-          inkBarStyle={{background: '#b23c17' }}
-          style={{color: '#b23c17'}}
-        //   textColor="primary"
           variant="fullWidth"
-          aria-label="full width tabs example"
         >
           <Tab label="Login" {...a11yProps(0)} />
           <Tab label="Signup" {...a11yProps(1)} />
-        </Tabs>
+        </StyledTabs>
       </AppBar>
       <SwipeableViews
         axis={theme.direction === 'rtl' ? 'x-reverse' : 'x'}
@@ -88,25 +89,14 @@ export default function FullWidthTabs() {
       >
         <TabPanel value={value} index={0} dir={theme.direction}>
           <FormLogin />
-          <div style={{
-            backgroundColor: 'lightgrey',
-            marginLeft: '-20px',
-            marginRight: '-20px',
-            marginBottom: '0px',
-            marginTop: '15px',
-            borderBottomLeftRadius: '7px',
-            borderBottomRightRadius: '7px',
-            padding: '20px',
-            textAlign: 'center',
-          }}
-          >
-            <a href="localhost:3000/main">Forgot password?</a>
-          </div>
         </TabPanel>
         <TabPanel value={value} index={1} dir={theme.direction}>
           <FormSignup />
         </TabPanel>
       </SwipeableViews>
+      <StyledDivForgotPwd>
+            <a href="localhost:3000/main">Forgot password?</a>
+      </StyledDivForgotPwd>
     </div>
   );
 }

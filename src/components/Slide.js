@@ -1,12 +1,30 @@
-import React, { Component } from 'react'
+import React from 'react'
 import Grid from '@material-ui/core/Grid';
 import Carousel from 'react-material-ui-carousel';
 import { Card, CardMedia } from '@material-ui/core';
-import FormSignup from '../components/FormSignup'
+import styled from 'styled-components';
 import Panel from '../components/Panel'
-import note1 from './note1.jpg';
-import note2 from './note2.jpg';
-import note3 from './note3.jpg';
+import note1 from '../home_bg_images/note1.jpg';
+import note2 from '../home_bg_images/note2.jpg';
+import note3 from '../home_bg_images/note3.jpg';
+
+const StyledGrid = styled(Grid)`
+    width: 30%;
+    position: absolute;
+    left:50%;
+    transform: translateX(-50%);
+    top: 15%;
+    border: 1px solid white;
+    border-radius: 7px;
+    background-color: #ffffff;
+`;
+
+const StyledCardMedia = styled(CardMedia)`
+    width: 100%;
+    height: 100vh;
+    opacity: 0.50;
+`;
+
 function Slide() {
     var items = [
         {
@@ -35,19 +53,18 @@ function Slide() {
                 }
             </Carousel>
             <div>
-            <Grid md={8} style={{width:'30%', position: 'absolute', left:'50%', transform: 'translateX(-50%)', top: '15%', /*paddingTop: '15px', paddingRight: '50px', paddingBottom: '35px', paddingLeft: '50px',*/ border: '1px solid white', borderRadius: '7px', backgroundColor: '#ffffff'}} >
+            <StyledGrid md={3} >
                 <Panel />
-            </Grid>
+            </StyledGrid>
             </div>
         </div>
     )
 }
 
 function Item(props) {
-    // const img = props.item.image;
     return (
         <Card>
-            <CardMedia component="img" style={{width: '100%', height: '100vh', opacity: '0.50'}} src={props.item.image} />
+            <StyledCardMedia component="img" src={props.item.image} />
         </Card>
 
     )

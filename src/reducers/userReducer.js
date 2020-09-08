@@ -1,6 +1,4 @@
 import * as actions from '../constants/action-types';
-// import { store } from '../helpers/store';
-import storage from 'redux-persist/lib/storage';
 
 const initialState = {
   user: {},
@@ -10,6 +8,12 @@ const initialState = {
 
 export default function userReducer(state = initialState, action) {
   switch (action.type) {
+    case actions.USER_REGISTER:
+      return { ...state, loading: true };
+    case actions.USER_REGISTER_SUCCESS:
+      return { user: action.payload, loading: false, hasError: false };
+    case actions.USER_REGISTER_FAILURE:
+      return { ...state, loading: false, hasError: true };
     case actions.USER_LOGIN:
       return { ...state, loading: true };
     case actions.USER_LOGIN_SUCCESS:
@@ -29,9 +33,16 @@ export default function userReducer(state = initialState, action) {
     case actions.USER_UPDATE_PROFILE:
       return { ...state, loading: true };
     case actions.USER_UPDATE_PROFILE_SUCCESS:
+      console.log("PAYLOAD IN REDUCER: ", action.payload);
       return { user: action.payload, loading: false, hasError: false };
     case actions.USER_UPDATE_PROFILE_FAILURE:
       return { ...state, loading: false, hasError: true };
+    case actions.UNLOCK_PWD:
+      return { ...state, loading: true, hasError: false};
+    case actions.UNLOCK_PWD_SUCCESS:
+      return { ...state, loading: false, hasError: false};
+    case actions.UNLOCK_PWD_FAILURE:
+      return { ...state, loading: false, hasError: true};
     default:
       return state;
   }

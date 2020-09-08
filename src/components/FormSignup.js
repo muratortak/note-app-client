@@ -1,12 +1,35 @@
-import React, {useState, setState, useReducer } from 'react';
+import React, { useReducer } from 'react';
+import { connect } from 'react-redux';
 import FormControl from '@material-ui/core/FormControl';
-import Input from '@material-ui/core/Input';
-import InputLabel from '@material-ui/core/InputLabel';
 import { TextField } from '@material-ui/core';
 import Grid from '@material-ui/core/Grid';
 import Button from '@material-ui/core/Button'
+import styled from 'styled-components';
+import { registerUserFunc } from '../actions/user.actions';
+import { registerUser } from '../services/user.service';
 
-//#region useReducer
+const StyledForm = styled.form`
+    opacity: '1';
+    justify-content: 'center';
+`;
+
+const StyledH2 = styled.h2`
+    color: #ff5722;
+`;
+const StyledFormControl = styled(FormControl)`
+    width: 100%;
+`;
+
+const StyledTextFiled = styled(TextField)`
+    margin-bottom: 5px;
+    background-color: #E1E1E1;
+`;
+
+const StyledButton = styled(Button)`
+    background-color: #ff5722;
+    color: #ffffff;
+`;
+
 const initialState = {
     name: '',
     email: '',
@@ -20,48 +43,52 @@ function reducer(state, {field, value}) {
         [field]: value
     }
 }
-//#endregion useReducer
 
-function FormSignup() {
+function FormSignup(props) {
 
-    //#region useReducer
     const [state, dispatch] = useReducer(reducer, initialState);
     
     const handleChange = (event) =>{
         dispatch({field: event.target.name, value: event.target.value})    
     }
-    //#endregion useReducer
 
-    //#region useReducer
+    const submitForm = (event) => {
+        const registerForm = state;
+        event.preventDefault();
+        props.dispatch(registerUserFunc(registerForm));
+    }
+    
     const {name, email, password, confirmPassword} = state;
-    //#endregion useReducer
 
-        return (
-            <Grid md={12}>
-            <form style={{ backgroundColor: '', opacity: '1', justifyContent: 'center'}} noValidate autoComplete="off">
-                <h2 style={{color: '#ff5722'}}>Signup</h2>
-                <FormControl style={{width: '100%'}}>
-                    <TextField id="outlined-basic" style={{marginBottom: '5px', backgroundColor:'#E1E1E1'}} variant="outlined" label="Name" type="text" name="name" value={name} onChange={handleChange} />
-                </FormControl>
-                <br />
-                <FormControl style={{width: '100%'}}>
-                    <TextField id="outlined-basic" style={{marginBottom: '5px', backgroundColor:'#E1E1E1'}} color="#ff5722"  type="text" variant="outlined" label="Email" name="email" value={email} onChange={handleChange} />
-                </FormControl>
-                <br />
-                <FormControl style={{width: '100%'}}>
-                    <TextField id="outlined-basic" style={{marginBottom: '5px', backgroundColor:'#E1E1E1'}}  type="password" variant="outlined" label="Password" name="password" value={password} onChange={handleChange} />
-                </FormControl>
-                <br />
-                <FormControl style={{width: '100%'}}>
-                    <TextField id="outlined-basic" style={{marginBottom: '5px', backgroundColor:'#E1E1E1' }}  type="password" variant="outlined" label="Confirm Password" name="confirmPassword" value={confirmPassword} onChange={handleChange} />
-                </FormControl>
-                <br />
-                <FormControl  style={{width: '100%'}}>
-                    <Button style={{backgroundColor: '#ff5722', color: '#ffffff'}} variant="contained">Signup</Button>
-                </FormControl>
-            </form>
-            </Grid>
-        )
+    return (
+        <Grid md={12}>
+        <StyledForm onSubmit={submitForm} noValidate autoComplete="off">
+            <StyledH2>Signup</StyledH2>
+            <StyledFormControl>
+                <StyledTextFiled id="outlined-basic" type="text" variant="outlined" label="Name" name="name" value={name} onChange={handleChange} />
+            </StyledFormControl>
+            <StyledFormControl>
+                <StyledTextFiled id="outlined-basic" type="text" variant="outlined" label="Email" name="email" value={email} onChange={handleChange} />
+            </StyledFormControl>
+            <StyledFormControl>
+                <StyledTextFiled id="outlined-basic" type="password" variant="outlined" label="Password" name="password" value={password} onChange={handleChange} />
+            </StyledFormControl>
+            <StyledFormControl>
+                <StyledTextFiled id="outlined-basic" type="password" variant="outlined" label="Confirm Password" name="confirmPassword" value={confirmPassword} onChange={handleChange} />
+            </StyledFormControl>
+            <StyledFormControl>
+                <StyledButton variant="contained" type="submit">Signup</StyledButton>
+            </StyledFormControl>
+        </StyledForm>
+        </Grid>
+    )
 }
 
-export default FormSignup;
+const mapStateToProps = (state) => {
+    return {
+      loading: state.user.loading,
+      hasErrors: state.user.hasErrors,
+    };
+};
+
+export default connect(mapStateToProps)(FormSignup);

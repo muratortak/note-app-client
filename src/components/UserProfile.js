@@ -1,20 +1,22 @@
-import React, { Component, useEffect } from 'react'
+import React from 'react'
 import { Grid, Card, CardActionArea, CardMedia, CardContent, Typography } from '@material-ui/core';
-import { connect } from 'react-redux';
-import { logout } from '../actions/user.actions';
-import { getMe } from '../actions/user.actions';
+import styled from 'styled-components';
+
+const StyledCardMedia = styled(CardMedia)`
+  object-fit: cover
+`;
 
 function UserProfile(props) {
-  // console.log("Props in user profile: ", props.user.user.image);
+  
   return (
-    <Grid>
-      <Grid>
+    <Grid container spacing={2}>
+      <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
         <Card>
           <CardActionArea>
-            <CardMedia
+            <StyledCardMedia
               component="img"
               alt="User PP"
-              height="140"
+              height="200"
               image={props.user.user.image}
               title={props.user.user.userName}
             />

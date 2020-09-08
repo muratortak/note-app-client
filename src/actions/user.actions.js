@@ -2,13 +2,25 @@ import * as userConstants from '../constants/action-types';
 import * as userService from '../services/user.service';
 import { history } from '../helpers/history';
 
+const userRegister = () => ({
+  type: userConstants.USER_REGISTER
+});
+
+const userRegisterSuccess = (user) => ({
+  type: userConstants.USER_REGISTER_SUCCESS,
+  payload: user
+});
+
+const userRegisterFailure = () => ({
+  type: userConstants.USER_REGISTER_FAILURE
+});
+
 const userLogin = () => ({
   type: userConstants.USER_LOGIN,
 });
 
 const userLoginSuccess = (user) => ({
   type: userConstants.USER_LOGIN_SUCCESS,
-  // type: userConstants.GET_NOTES_SUCCESS,
   payload: user,
 });
 
@@ -43,10 +55,13 @@ const userUpdateProfile = () => ({
   type: userConstants.USER_UPDATE_PROFILE,
 });
 
-const userUpdateProfileSuccess = () => ({
+const userUpdateProfileSuccess = (newUserReturn) => 
+  {
+  return {
   type: userConstants.USER_UPDATE_PROFILE_SUCCESS,
-  payload: {},
-});
+  payload: newUserReturn,
+  };
+}
 
 const userUpdateProfileFailure = () => {
   return {
@@ -54,25 +69,31 @@ const userUpdateProfileFailure = () => {
   };
 };
 
+export const registerUserFunc = (registerForm) => {
+  return async(dispatch) => {
+    dispatch(userRegister());
+    try{
+      const user = await userService.registerUser(registerForm);
+      dispatch(userRegisterSuccess(user));
+      history.push('/main');
+    } catch(err) {
+      dispatch(userRegisterFailure());
+    }
+  }
+}
+
 export function loginFunc({userName, password}) {
   return async (dispatch) => {
     dispatch(userLogin());
     try {
-      console.log('User actions Try:');
-      const usr = await userService.login({ userName, password });
-      console.log('User actions Try after userService.Login: ', usr);
-      dispatch(userLoginSuccess(usr));
-      console.log('User actions Try after userLoginSuccess dispatch:');
+      const user = await userService.login({ userName, password });
+      dispatch(userLoginSuccess(user));
       history.push('/main');
-      console.log('User actions Try after push to main:');
     } catch (err) {
-      console.log('ERROR IN LOGIN FUN: ', err);
-      dispatch(userLoginFailure);
+      dispatch(userLoginFailure());
     }
   };
 };
-
-// TODO: Logout
 
 export function logout() {
   return async (dispatch) => {
@@ -100,19 +121,23 @@ export function getMe() {
   };
 }
 
-// TODO: Register
-
-// Update Profile
-
 export function updateProfile(newUser) {
   return async (dispatch) => {
     dispatch(userUpdateProfile());
     try {
-      const newUserReturn = userService.updateProfile(newUser);
-      userUpdateProfileSuccess(newUserReturn);
+      const newUserReturn = await userService.updateProfile(newUser);
+      dispatch(userUpdateProfileSuccess(newUserReturn));
     } catch (err) {
-      console.log(err);
       dispatch(userUpdateProfileFailure());
     }
   };
+}
+
+export async function unlockPWDFunc(pwd) {
+  try{
+    const unlockedPWD = await userService.unlockPWD(pwd);
+    return unlockedPWD;
+  }catch(err){
+    return false;
+  }
 }

@@ -37,6 +37,19 @@ const saveNewNoteFailure = () => ({
   type: noteConstants.SAVE_NEW_NOTE_FAILURE
 });
 
+const updateNote = () => ({
+  type: noteConstants.UPDATE_NOTE,
+})
+
+const updateNoteSuccess = (updatedNote) => ({
+  type: noteConstants.UPDATE_NOTE_SUCCESS,
+  payload: updatedNote,
+})
+
+const updateNoteFailure = () => ({
+  type: noteConstants.UPDATE_NOTE_FAILURE,
+})
+
 const deleteNote = () => ({
   type: noteConstants.DELETE_NOTE,
 });
@@ -49,6 +62,19 @@ const deleteNoteSuccess = (newNote) => ({
 const deleteNoteFailure = () => ({
   type: noteConstants.DELETE_NOTE_FAILURE
 });
+
+// const deleteTempNote = () => ({
+//   type: noteConstants.DELETE_NOTE,
+// });
+
+// const deleteTempNoteSuccess = (newNote) => ({
+//   type: noteConstants.DELETE_NOTE_SUCCESS,
+//   payload: newNote,
+// });
+
+// const deleteTempNoteFailure = () => ({
+//   type: noteConstants.DELETE_NOTE_FAILURE
+// });
 
 const updateNoteZIndex = (newNote) => {
   console.log('zIndex in action up: ', newNote)
@@ -65,6 +91,7 @@ const saveNoteLocation = () => {
 }
 
 const saveNoteLocationSuccess = (note) => {
+  console.log("SavenotelocationSuccess: ", note);
   return {
     type: noteConstants.UPDATE_LOCATION_SUCCESS,
     payload: note,
@@ -82,7 +109,7 @@ export function getAllNotes() {
     dispatch(getNotes());
     try {
       const notes = await noteService.getAllNotes();
-      dispatch(getNotesSuccess({ notes, maxZIndex: notes[0].maxZIndex }));
+      dispatch(getNotesSuccess({ notes }));
     } catch (err) {
       console.log('get all notes error: ', err);
       dispatch(getNotesFailure());
@@ -126,14 +153,39 @@ export function deleteNoteFunc(noteID) {
   };
 }
 
-export function updateNote(note) {
+// export function deleteTempNoteFunc(noteID) {
+//   return async (dispatch) => {
+//     try{
+//       dispatch(deleteTempNote());
+//       // Returning all the notes from the server-side.
+//       // TODO: Refine to only return the saved note and merge it back to the State.
+      
+//       console.log("NOTE IN DELETE FUNC: ", notes);
+//       dispatch(deleteTempNoteSuccess(notes));
+//     } catch(err) {
+//       dispatch(deleteTempNoteFailure());
+//     }
+//   };
+// }
 
+
+export function updateNoteFunc(updatedNote) {
+  return async (dispatch) => {
+    try{
+      dispatch(updateNote());
+      // Returning all the notes from the server-side.
+      // TODO: Refine to only return the saved note and merge it back to the State.
+      console.log("INSIDE UPDATE FUNC NOTE.ACTIONS: ", updatedNote);
+      const notes = await noteService.updateNote(updatedNote);
+      dispatch(updateNoteSuccess(notes));
+    } catch(err) {
+      dispatch(updateNoteFailure());
+    }
+  };
 }
 
 export function updateNoteZIndexFunc(newNote) {
   return (dispatch) => {
-    console.log('zindex actions: ', newNote);
-
     dispatch(updateNoteZIndex(newNote));
   }
 }
@@ -144,7 +196,6 @@ export function saveNoteLocationFunc(note) {
     console.log("After dispatch in note actions")
     try{
       dispatch(saveNoteLocation());
-      console.log("inside try in notes.action, ", newnote);
       // Returning all the notes from the server-side.
       // TODO: Refine to only return the saved note and merge it back to the State.
       const note = await noteService.saveLocation(newnote);

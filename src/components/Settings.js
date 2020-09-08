@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { connect } from 'redux';
 
 
 class Settings extends Component {

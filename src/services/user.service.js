@@ -1,9 +1,29 @@
 import axios from 'axios';
 
+export async function registerUser(registerForm) {
+  let user;
+  try {
+    let response = await fetch('http://localhost:3000/signup', {
+      method: 'POST',
+      mode: 'cors',
+      headers: { 'Content-Type': 'application/json'},
+      body: JSON.stringify(registerForm)
+    });
+
+    user = await response.text();
+    user = JSON.parse(user);
+    
+    console.log('awaited user: ', user.user);
+    return user;
+  } catch(err) {
+    console.log("Error registring a new user from response.");
+    return false;
+  }
+}
+
 export async function login(user) {
   let usr;
   try {
-    // usr = await axios.post('http://localhost:3000/login', user);
     let response = await fetch('http://localhost:3000/login', {
       method: 'POST',
       mode: 'cors',
@@ -11,12 +31,12 @@ export async function login(user) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(user),
     });
-    // .then(res => console.log('res in fetch await: ', res));
+    
     usr = await response.text();
     usr = JSON.parse(usr);
-    // usr = usr.user;
+    
     console.log('awaited user: ', usr.user);
-    // let tokenClient = cookie.get("tokenClient");
+    
   } catch (err) {
     console.log('AXIOS ERR: ', err);
   }
@@ -63,10 +83,47 @@ export async function getMe() {
 export async function updateProfile(user) {
   let me;
   try {
-    me = await axios.post('http://localhost:3000/updateMe', user);
+    me = await fetch('http://localhost:3000/updateme', {
+      method: 'POST', 
+      credentials: 'include', 
+      mode: 'cors', 
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(user)
+    });
+    if(me.ok){
+      me = await me.json();
+      console.log("ME AFTER AWAIT: ", me);
+      return me;
+    }
   } catch (err) {
-    console.log(err);
+    console.log('ERR ON LOGOUT ', err);
   }
+  console.log("NEW UPDATED ME IN SERVICE LAYER: ", me)
+}
 
-  return me.data;
+export async function unlockPWD(pwd) {
+  let unlocked;
+  try {
+    unlocked = await fetch('http://localhost:3000/unlockpwd', {
+      method: 'POST', 
+      credentials: 'include', 
+      mode: 'cors', 
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify(pwd)
+    });
+    if(unlocked.ok) {
+      const returnResult = await unlocked.json();
+      return true;
+    }
+    else {
+      throw {
+        json: await unlocked.json(),
+        status: unlocked.status,
+        statusText: unlocked.statusText
+      }
+    }
+  } catch (err) {
+    console.log('ERR ON LOGOUT ', err);
+    return false;
+  }
 }

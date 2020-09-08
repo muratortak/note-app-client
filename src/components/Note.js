@@ -1,19 +1,42 @@
 import React, { useReducer, useState, useRef, useEffect } from 'react';
 import { connect } from 'react-redux';
-import { Card, CardContent, Typography, Grid, Menu, MenuItem, IconButton } from '@material-ui/core';
+import { Card, CardContent, Typography, Menu, MenuItem, IconButton } from '@material-ui/core';
 import Input from '@material-ui/core/Input';
 import TextField from '@material-ui/core/TextField';
-import Draggable from 'react-draggable';
-import { Resizable } from 'react-resizable';
 import ControlCameraIcon from '@material-ui/icons/ControlCamera';
-import { saveNewNoteFunc, deleteNoteFunc, saveNoteLocationFunc } from '../actions/notes.actions';
-
+import { saveNewNoteFunc, deleteNoteFunc, saveNoteLocationFunc, updateNoteFunc } from '../actions/notes.actions';
+import { Rnd } from "react-rnd";
 import MoreHorizIcon from '@material-ui/icons/MoreHoriz';
-// import '../../../nodecss/styles.css';
 import '../helpers/style.css';
-// import './test.css';
-// #region useReducer
+import styled from 'styled-components';
 
+const StyledOuterDiv = styled.div`
+  height: 100%;
+`;
+
+const StyledDivHeader = styled.div`
+  background-color: #b23c17;
+  color: #ffffff;
+  text-align: center;
+  display: flex;
+  width: 100%; 
+  height: 15%;
+  justify-content: space-between;
+`;
+
+const StyledCard = styled(Card)`
+  height: 85%;
+`;
+
+const StyledInput = styled(Input)`
+  width: 100%;
+  height: 100%;
+`;
+
+const StyledTextField = styled(TextField)`
+  width: 100%;
+  height: 100%;  
+`;
 
 // TODO: Create a function to store the location of each note to put them back on the right place when user comes back.
 // FIXME: Put the focus on the selected note. Some notes stay behind of others. Find a way to fix this on mouseclick.
@@ -25,21 +48,29 @@ function reducer(state, {field, value}) {
   };
 }
 
-let stateResize = { width: 200, height: 200 };
-
 function Note(props) {
   const initialState = {
     _id: props.note._id,
     type: props.note.type,
     title: props.note.title,
     note: props.note.note,
-    x: props.note.x,
-    y: props.note.y,
+    initialx: props.note.x,
+    initialy: props.note.y,
     zIndex: props.note.zIndex,
+    height: (props.note.height  === null ? 250 : props.note.height),
+    width: (props.note.width  === null ? 250 : props.note.width),
+    status: (props.note.status  === null ? "db" : props.note.status)
   };
-  
+
+  const stateDrag = {
+    width: props.note.width === null ? 250 :  props.note.width,
+    height: props.note.height === null ? 250 :  props.note.height,
+    x: props.note.x,
+    y: props.note.y
+  };
+
   const [field, setField] = useReducer(reducer, initialState);
-  const [sizeEl, setSize] = useState(stateResize);
+  const [fieldDrag, setFieldDrag] = useState(stateDrag);
   const [anchorEl, setAnchorEl] = useState(null);
   const [open, setOpen] = React.useState(false);
   const isMenuOpen = Boolean(anchorEl);
@@ -47,24 +78,8 @@ function Note(props) {
     setField({ field: event.target.name, value: event.target.value });
   };
 
-  useEffect(() => {
-    locationRef.current.style.transform = `translate(${field.x}px, ${field.y}px)`;
-  }, []);
+  const { _id, type, title, note, initialx, initialy, zIndex, width, height, status } = field;
 
-  const { _id, type, title, note, x, y, zIndex } = field;
-
-  const locationRef = useRef(null);
-  const locationZIndex = useRef(null);
-
-  const onResize = (event, { element, size, handle }) => {
-    setSize({ width: size.width, height: size.height });
-  };
-
-  const pinNote = (event, size) => {
-  };
-
-  const getLocation = () => {
-  };
   const handleProfileMenuOpen = (event) => {
     setAnchorEl(event.currentTarget);
   };
@@ -73,80 +88,96 @@ function Note(props) {
     setAnchorEl(null);
   };
 
-  const handleProfileOpen = () => {
-    setOpen(true);
-  };
-
-  const handleProfileClose = () => {
-    setOpen(false);
-  };
-
-  
-  const saveLocation = (event) => {
-    var coord = getNoteLocation(event);
-    console.log('save location: ', coord.x, coord.y);
-    const noteLocation = {
-      noteID: field._id,
-      x: coord.x,
-      y: coord.y
-    }
-    props.dispatch(saveNoteLocationFunc(noteLocation));
-  };
+  const updateNote = () => {
+    var coord = getNoteLocation();
+    var size = getSize();
+    var updateNote = field;
+    updateNote.initialx = coord.x;
+    updateNote.initialy = coord.y;
+    updateNote.width = size.width;
+    updateNote.height = size.height;
+    props.dispatch(updateNoteFunc(updateNote))
+  }
 
   const saveNote = (event) => {
-    var coord = getNoteLocation(event);
-    field.x = coord.x;
-    field.y = coord.y;
+    var coord = getNoteLocation();
+    var size = getSize();
     var newNote = field;
+    newNote.x = coord.x;
+    newNote.y = coord.y;
+    newNote.width = size.width;
+    newNote.height = size.height;
+    
     props.dispatch(saveNewNoteFunc(newNote));
   }
 
   const deleteNote = () => {
-    console.log("Delete action triggered.");
     var noteID = field._id;
-    props.dispatch(deleteNoteFunc(noteID));
+    if(field.status === 'new'){
+      // props.dispatch(deleteTempNoteFunc(noteID));
+    } else {
+      props.dispatch(deleteNoteFunc(noteID));
+    }
   }
 
-  const getNoteLocation = (event) => {
-    console.log("field on save content: ", field);
-    let style = locationRef.current.style.transform;
-    let x = style.substring(style.indexOf('(') + 1, style.indexOf('px,'));
-    let y = style.substring(style.indexOf('px,') + 3, style.indexOf('px)'));
+  const getNoteLocation = () => {
+    let x = fieldDrag.x;
+    let y = fieldDrag.y;
     return {x, y}
   }
 
-  const menuId = 'secondary-search-account-menu';
+  const getSize = () => {
+    let width = fieldDrag.width;
+    let height = fieldDrag.height;
+    return {width, height};
+  }
 
-  const { width, height } = sizeEl;
+  const menuId = 'secondary-search-account-menu';
   const renderMenu = (
     <Menu
       anchorEl={anchorEl}
       anchorOrigin={{ vertical: 'top', horizontal: 'right' }}
       id={menuId}
       keepMounted
-      tranformOrigin={{ vertical: 'top', horizontal: 'right' }}
       open={isMenuOpen}
       onClose={handleMenuClose}
       style={{ marginLeft: '-15px' }}
     >
-      <MenuItem onClick={saveLocation}>Save Location</MenuItem>
-      <MenuItem onClick={saveNote}>Save Note</MenuItem>
+      {
+        (status==="new") ? <MenuItem onClick={saveNote}>Save Note</MenuItem> : null
+      }
+      <MenuItem onClick={updateNote}>Update Note</MenuItem>
       <MenuItem onClick={deleteNote}>Delete Note</MenuItem>
     </Menu>
   );
 
   return (
-    <Draggable handle="strong" >
-      <div className="box no-cursor" ref={locationRef} style={{ zIndex: zIndex }}>
-        <strong className="cursor">
-          <div style={{backgroundColor: '#b23c17', color: '#ffffff', textAlign: 'center', minWidth: '230px', width: width + 'px', display: 'inline-block'}}>
-            <span style={{float: 'left'}}>
-              <ControlCameraIcon style={{ }} />
-            </span>
-            <span>
+    
+    <Rnd 
+      handle="strong"
+      position={{ x: fieldDrag.x, y: fieldDrag.y }}
+      size={{ width: fieldDrag.width, height: fieldDrag.height }}
+      onDragStop={(e, d, ) => {
+        setFieldDrag({ ...fieldDrag, x: d.x, y: d.y });
+      }}
+      onResizeStop={(e, direction, ref, delta, position) => {
+        setFieldDrag({
+            width: ref.style.width,
+            height: ref.style.height,
+            ...position
+          });
+        }}
+    >
+      <StyledOuterDiv>
+        <strong className="cursor" >
+          <StyledDivHeader>
+            <div>
+              <ControlCameraIcon />
+            </div>
+            <div>
               {title}
-            </span>
-            <span style={{ float: 'right' }}>
+            </div>
+            <div>
               <IconButton
                 edge="end"
                 aria-label="account of current user"
@@ -158,31 +189,25 @@ function Note(props) {
               >
                 <MoreHorizIcon />
               </IconButton>
-            </span>
-          </div>
+            </div>
+          </StyledDivHeader>
         </strong>
-        <Resizable className="box" height={height} width={width} onResize={onResize} resizeHandles={['se']}>
-          <div className="box" style={{ minWidth: '230px', width: width + 'px', height: height + 'px' }}>
-            <Card
-              style={{ minWidth: '230px', width: (width) + 'px', height: height + 'px' }}
-            >
-              <CardContent>
-                <Typography gutterBottom variant="h5" component="h2">
-                  <Input style={{ minWidth: '195px', width: (width - 35) + 'px' }} type="text" name="title" value={title} onChange={handleChange} />
-                </Typography>
-                <Typography gutterBottom variant="body2" component="h3">
-                  <Input style={{ minWidth: '195px', width: (width - 35) + 'px' }} type="text" name="type" value={type} onChange={handleChange} />
-                </Typography>
-                <Typography gutterBottom variant="body2" component="p">
-                  <TextField style={{ minWidth: '195px', width: (width - 35) + 'px' }} multiline type="text" name="note" value={note} onChange={handleChange} />
-                </Typography>
-              </CardContent>
-            </Card>
-          </div>
-        </Resizable>
-        {renderMenu}
-      </div>
-    </Draggable>
+        <StyledCard>
+          <CardContent>
+            <Typography gutterBottom variant="h5" component="h2">
+              <StyledInput type="text" name="title" value={title} onChange={handleChange} />
+            </Typography>
+            <Typography gutterBottom variant="body2" component="h3">
+              <StyledInput type="text" name="type" value={type} onChange={handleChange} />
+            </Typography>
+            <Typography gutterBottom variant="body2" component="p">
+              <StyledTextField multiline type="text" name="note" value={note} onChange={handleChange} />
+            </Typography>
+          </CardContent>
+        </StyledCard>
+      </StyledOuterDiv>
+      {renderMenu}
+    </Rnd>
   );
 }
 
@@ -193,4 +218,3 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps)(Note);
-// export default Note;

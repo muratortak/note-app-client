@@ -1,23 +1,12 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import { Grid } from '@material-ui/core';
-import AddIcon from '@material-ui/icons/Add';
-import Fab from '@material-ui/core/Fab';
-import EmptyNote from '../helpers/EmptyNote';
-import * as noteAction from '../actions/notes.actions';
 
-function NotePanel(props) {
-
-  const addNote = () => {
-    console.log("props in note panel: ", props.notes)
-    props.dispatch(noteAction.addNewNoteFunc(props.notes));
-  };
+function NotePanel() {
 
   return (
     <Grid style={{ width: '100%', height: '5%', backgroundColor: '#f6734b', marginBottom: '25px' }}>
-      {/* <Fab size="small" color="secondary" aria-label="add">
-        <AddIcon onClick={addNote} />
-      </Fab> */}
+
     </Grid>
   );
 }

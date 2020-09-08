@@ -13,6 +13,7 @@ export default function notesReducer(state = initialState, action) {
       // console.log('action payload in notes get ');
       return { ...state, loading: true };
     case actions.GET_NOTES_SUCCESS:
+      console.log("GET NOTES SUCCESS IN REDUCER")
       return { 
         notes: action.payload.notes, 
         maxZIndex: action.payload.maxZIndex, 
@@ -77,12 +78,23 @@ export default function notesReducer(state = initialState, action) {
       };
     case actions.UPDATE_NOTE:
       return { 
-        notes: action.payload,
-        maxZIndex: action.payload.maxZIndex, 
-        loading: false, 
+        ...state,
+        loading: true, 
         hasError: false 
       };
-    case actions.UPDATE_ZINDEX:
+    case actions.UPDATE_NOTE_SUCCESS:
+        return { 
+          notes: action.payload,
+          loading: false, 
+          hasError: false 
+        };  
+    case actions.UPDATE_NOTE_FAILURE:
+      return { 
+        ...state,
+        loading: false, 
+        hasError: true 
+      };
+      case actions.UPDATE_ZINDEX:
       let newNotes = state.notes.map(note => {
                     if(note._id === action.payload.id) {
                       note.zIndex = action.payload.zIndex;
@@ -95,27 +107,29 @@ export default function notesReducer(state = initialState, action) {
         notes: newNotes, 
         maxZIndex: action.payload.maxZIndex
       };
-    case action.UPDATE_LOCATION:
+    case actions.UPDATE_LOCATION:
       return {
         ...state, 
         loading: true,
         hasError: false
       }
-    case action.UPDATE_LOCATION_SUCCESS:
+    case actions.UPDATE_LOCATION_SUCCESS:
+      console.log("IN REDUCER UPDATE LOCATION: ", action.payload);
       return {
         notes: action.payload,
         loading: false,
         hasError: false
       }
-    case action.UPDATE_LOCATION_FAILURE:
+    case actions.UPDATE_LOCATION_FAILURE:
+      console.log("UPDATE LOCATION FAIL")
       return {
         ...state,
         loading: false,
         hasError: true
       }
-    case action.CLEAR_NOTE:
+    case actions.CLEAR_NOTE:
       return { 
-        notes: [''] 
+        notes: [] 
       }
     default:
       return state;

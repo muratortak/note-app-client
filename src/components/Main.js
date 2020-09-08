@@ -1,39 +1,31 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'react-redux';
 import Grid from '@material-ui/core/Grid';
 import UserProfile from './UserProfile';
 import Notes from './Notes';
 import NotePanel from './NotePanel';
-import { getMe } from '../actions/user.actions';
-import { getAllNotes } from '../actions/notes.actions';
-
+import styled from 'styled-components';
 
 // TODO: Add a new section called 'EXPLORE' to see notes shared by others. Filtering by category.
 
+const StyledDiv = styled.div`
+  padding: 20px;
+`;
+
 function Main(props) {
-  // useEffect(() => {
-  //   props.dispatch(getMe());
-  // }, []);
-
-    // console.log('Notes i Notes : ', notes);
-  // useEffect(() => {
-  //   console.log('notes useEffect in main');
-  //   props.dispatch(getAllNotes());
-  // }, []);
-
-
+  console.log("PROPS: ", props);
   return (
-    <Grid>
-      <Grid container sm={12} spacing={1} justify="center">
-        <Grid item sm={3}>
+    <StyledDiv>
+      <Grid container sm={12} spacing={6}>
+        <Grid item sm={2}>
           <UserProfile user={props.user} />
         </Grid>
-        <Grid item md={8}>
+        <Grid item md={10}>
           <NotePanel />
           <Notes />
         </Grid>
       </Grid>
-    </Grid>
+    </StyledDiv>
   );
 };
 
