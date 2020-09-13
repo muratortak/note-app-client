@@ -27,7 +27,7 @@ const Notes = (props) => {
         <Grid item md={2}>
           { notes ?
             notes.map((note) => {
-              return <Note id={note._id} note={note} />;
+              return <Note id={note._id} key={note._id} note={note} />;
             }) : null
           }
         </Grid>

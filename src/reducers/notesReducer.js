@@ -13,7 +13,7 @@ export default function notesReducer(state = initialState, action) {
       // console.log('action payload in notes get ');
       return { ...state, loading: true };
     case actions.GET_NOTES_SUCCESS:
-      console.log("GET NOTES SUCCESS IN REDUCER")
+      console.log("GET NOTES SUCCESS IN REDUCER: ", action.payload.notes);
       return { 
         notes: action.payload.notes, 
         maxZIndex: action.payload.maxZIndex, 

@@ -16,7 +16,7 @@ function Main(props) {
   console.log("PROPS: ", props);
   return (
     <StyledDiv>
-      <Grid container sm={12} spacing={6}>
+      <Grid container spacing={6}>
         <Grid item sm={2}>
           <UserProfile user={props.user} />
         </Grid>

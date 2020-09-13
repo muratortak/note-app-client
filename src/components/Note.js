@@ -200,7 +200,7 @@ function Note(props) {
             <Typography gutterBottom variant="body2" component="h3">
               <StyledInput type="text" name="type" value={type} onChange={handleChange} />
             </Typography>
-            <Typography gutterBottom variant="body2" component="p">
+            <Typography gutterBottom variant="body2" component="div">
               <StyledTextField multiline type="text" name="note" value={note} onChange={handleChange} />
             </Typography>
           </CardContent>

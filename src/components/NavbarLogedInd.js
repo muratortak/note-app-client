@@ -176,7 +176,7 @@ function NavbarLogedInd(props) {
     >
       <MenuItem>
         <IconButton aria-label="show 4 new mails" color="inherit">
-          <Badge badgeContent={4} color="Secondary">
+          <Badge badgeContent={4}>
             <MailIcon />
           </Badge>
         </IconButton>
