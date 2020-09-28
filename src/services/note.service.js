@@ -4,11 +4,12 @@ export async function getAllNotes() {
   let notes;
   try {
     // notes = await axios.get('http://localhost:3000/notes', { withCredentials: true });
+    console.log("GET NOTES IN SERVICE");
     let response = await fetch('http://localhost:3000/notes', {method: 'GET', mode: 'cors', credentials: 'include' } );
     notes = await response.text();
     notes = JSON.parse(notes);
-    notes = notes.notesReturn;
-    // console.log('notes in service ', notes);
+    notes = notes.notes;
+    console.log('notes in service ', notes);
   } catch (err) {
     console.log(err);
   }
@@ -34,7 +35,7 @@ export async function updateNote(note) {
     );
     result = await response.text();
     result = JSON.parse(result);
-    result = result.notesReturn;
+    result = result.notes;
     console.log("SERVICE RETURNED NOTES AFTER SAVING: ", result);
   } catch(err) {
     console.log("Error while saving a new note: ", err);
@@ -83,7 +84,7 @@ export async function saveNewNote(note) {
     );
     result = await response.text();
     result = JSON.parse(result);
-    result = result.notesReturn;
+    result = result.notes;
     console.log("SERVICE RETURNED NOTES AFTER SAVING: ", result);
   } catch(err) {
     console.log("Error while saving a new note: ", err);
@@ -107,7 +108,8 @@ export async function deleteNote(noteID) {
     );
     result = await response.text();
     result = JSON.parse(result);
-    result = result.notesReturn;
+    console.log("RESULT IN DELETE: ", result);
+    result = result.notes;
   } catch(err) {
     console.log("Error while saving a new note: ", err);
   }

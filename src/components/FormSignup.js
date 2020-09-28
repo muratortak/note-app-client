@@ -31,9 +31,9 @@ const StyledButton = styled(Button)`
 `;
 
 const initialState = {
-    name: '',
+    userName: '',
     email: '',
-    password: '',
+    pwd: '',
     confirmPassword: '',
 }
 
@@ -58,20 +58,20 @@ function FormSignup(props) {
         props.dispatch(registerUserFunc(registerForm));
     }
     
-    const {name, email, password, confirmPassword} = state;
+    const {userName, email, pwd, confirmPassword} = state;
 
     return (
         <Grid md={12}>
         <StyledForm onSubmit={submitForm} noValidate autoComplete="off">
             <StyledH2>Signup</StyledH2>
             <StyledFormControl>
-                <StyledTextFiled id="outlined-basic" type="text" variant="outlined" label="Name" name="name" value={name} onChange={handleChange} />
+                <StyledTextFiled id="outlined-basic" type="text" variant="outlined" label="Name" name="userName" value={userName} onChange={handleChange} />
             </StyledFormControl>
             <StyledFormControl>
                 <StyledTextFiled id="outlined-basic" type="text" variant="outlined" label="Email" name="email" value={email} onChange={handleChange} />
             </StyledFormControl>
             <StyledFormControl>
-                <StyledTextFiled id="outlined-basic" type="password" variant="outlined" label="Password" name="password" value={password} onChange={handleChange} />
+                <StyledTextFiled id="outlined-basic" type="password" variant="outlined" label="Password" name="pwd" value={pwd} onChange={handleChange} />
             </StyledFormControl>
             <StyledFormControl>
                 <StyledTextFiled id="outlined-basic" type="password" variant="outlined" label="Confirm Password" name="confirmPassword" value={confirmPassword} onChange={handleChange} />

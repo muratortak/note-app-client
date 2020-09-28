@@ -86,7 +86,7 @@ export function loginFunc({userName, password}) {
   return async (dispatch) => {
     dispatch(userLogin());
     try {
-      const user = await userService.login({ userName, password });
+      const user = await userService.login({ userName, pwd: password });
       dispatch(userLoginSuccess(user));
       history.push('/main');
     } catch (err) {

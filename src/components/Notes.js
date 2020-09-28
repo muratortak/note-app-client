@@ -7,9 +7,7 @@ import Fab from '@material-ui/core/Fab';
 import Note from './Note';
 
 const Notes = (props) => {
-
   const { notes } = props;
-  
   useEffect(() => {
     props.dispatch(getAllNotes());
   }, []);

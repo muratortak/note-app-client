@@ -123,7 +123,7 @@ function ProfileEdit(props) {
   };
 
   const submitToUnlock = async (event) => {
-    var unlockPWD = {currentPassword}
+    var unlockPWD = {pwd: currentPassword}
     var isUnlocked = await unlockPWDFunc(unlockPWD);
     setValue({ field: 'isUnlocked', value: isUnlocked });
   }

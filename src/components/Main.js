@@ -13,7 +13,6 @@ const StyledDiv = styled.div`
 `;
 
 function Main(props) {
-  console.log("PROPS: ", props);
   return (
     <StyledDiv>
       <Grid container spacing={6}>

@@ -99,12 +99,13 @@ function Note(props) {
     props.dispatch(updateNoteFunc(updateNote))
   }
 
-  const saveNote = (event) => {
+  const saveNote = () => {
     var coord = getNoteLocation();
     var size = getSize();
+    delete field._id;
     var newNote = field;
-    newNote.x = coord.x;
-    newNote.y = coord.y;
+    newNote.initialx = coord.x;
+    newNote.initialy = coord.y;
     newNote.width = size.width;
     newNote.height = size.height;
     
