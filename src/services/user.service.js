@@ -3,7 +3,7 @@ import axios from 'axios';
 export async function registerUser(registerForm) {
   let user;
   try {
-    let response = await fetch('http://localhost:3000/signup', {
+    let response = await fetch('http://localhost:3000/user/signup', {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json'},
@@ -24,7 +24,7 @@ export async function registerUser(registerForm) {
 export async function login(user) {
   let usr;
   try {
-    let response = await fetch('http://localhost:3000/login', {
+    let response = await fetch('http://localhost:3000/user/login', {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -42,24 +42,36 @@ export async function login(user) {
   }
   // return usr.data.user;
   return usr;
-
-// TODO: check why below is not working.
-// return axios.post('http://localhost:3001/login', user)
-// .then(res => {
-//     console.log(res.data);
-//     // getToken(res);
-//     // store.set('loggedin', true);
-//     localStorage.setItem('user', JSON.stringify(user.data));
-//     return user.data;
-// }).catch(err => {
-//     console.log(err);
-// })z
 }
+
+export async function googleLogin(user) {
+  let usr;
+  try {
+    let response = await fetch('http://localhost:3000/user/loginoauth', {
+      method: 'POST',
+      mode: 'cors',
+      credentials: 'include',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(user),
+    });
+    
+    usr = await response.text();
+    usr = JSON.parse(usr);
+    
+    console.log('awaited user: ', usr.user);
+    
+  } catch (err) {
+    console.log('AXIOS ERR: ', err);
+  }
+  // return usr.data.user;
+  return usr;
+}
+
 
 export async function logout() {
   try {
-    // await axios.post('http://localhost:3000/logout');
-    await fetch('http://localhost:3000/logout', {method: 'POST', credentials: 'include', mode: 'cors', headers: {'Content-Type': 'application/json'}});
+    // await axios.post('http://localhost:3000/user/logout');
+    await fetch('http://localhost:3000/user/logout', {method: 'POST', credentials: 'include', mode: 'cors', headers: {'Content-Type': 'application/json'}});
     console.log('LOGOUT SUCCESS: ', logout);
   } catch (err) {
     console.log('ERR ON LOGOUT ', err);
@@ -69,7 +81,7 @@ export async function logout() {
 export async function getMe() {
   let me;
   try {
-    me = await axios.post('http://localhost:3000/me');
+    me = await axios.post('http://localhost:3000/user/me');
   } catch (err) {
     console.log('USER SERVOCE ERR: ', err);
   }
@@ -83,7 +95,7 @@ export async function getMe() {
 export async function updateProfile(user) {
   let me;
   try {
-    me = await fetch('http://localhost:3000/updateme', {
+    me = await fetch('http://localhost:3000/user/updateme', {
       method: 'POST', 
       credentials: 'include', 
       mode: 'cors', 
@@ -104,7 +116,7 @@ export async function updateProfile(user) {
 export async function unlockPWD(pwd) {
   let unlocked;
   try {
-    unlocked = await fetch('http://localhost:3000/unlockpwd', {
+    unlocked = await fetch('http://localhost:3000/user/unlockpwd', {
       method: 'POST', 
       credentials: 'include', 
       mode: 'cors', 

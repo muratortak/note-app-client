@@ -15,7 +15,8 @@ const StyledOuterDiv = styled.div`
 `;
 
 const StyledDivHeader = styled.div`
-  background-color: #b23c17;
+  background-color: #D18E2E;
+  // background-color: #E3E2DF;
   color: #ffffff;
   text-align: center;
   display: flex;
@@ -26,6 +27,7 @@ const StyledDivHeader = styled.div`
 
 const StyledCard = styled(Card)`
   height: 85%;
+  background-color: #E3E2DF;
 `;
 
 const StyledInput = styled(Input)`

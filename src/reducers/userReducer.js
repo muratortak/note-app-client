@@ -14,11 +14,19 @@ export default function userReducer(state = initialState, action) {
       return { user: action.payload, loading: false, hasError: false };
     case actions.USER_REGISTER_FAILURE:
       return { ...state, loading: false, hasError: true };
+    // App Login
     case actions.USER_LOGIN:
       return { ...state, loading: true };
     case actions.USER_LOGIN_SUCCESS:
       return { user: action.payload, loading: false, hasError: false };
     case actions.USER_LOGIN_FAILURE:
+      return { ...state, loading: false, hasError: true };
+    // Google Login
+    case actions.USER_GOOGLE_LOGIN:
+      return { ...state, loading: true };
+    case actions.USER_GOOGLE_LOGIN_SUCCESS:
+      return { user: action.payload, loading: false, hasError: false };
+    case actions.USER_GOOGLE_LOGIN_FAILURE:
       return { ...state, loading: false, hasError: true };
     case actions.USER_LOGOUT:
       // storage.removeItem('persist:root');

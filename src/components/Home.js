@@ -5,7 +5,7 @@ import Slide  from './Slide';
 function Home() {
 
   return (
-    <Grid md={12} sm={12}>
+    <Grid md={12} sm={12} >
       <Slide />
     </Grid>
   );

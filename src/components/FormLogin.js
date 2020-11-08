@@ -6,6 +6,7 @@ import { TextField } from '@material-ui/core';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import styled from 'styled-components';
 import { loginFunc } from '../actions/user.actions';
+import  GoogleLoginComp from './LoginGoogle';
 
 const StyledDivLoading = styled.div`
   text-align: center;
@@ -54,6 +55,7 @@ function FormLogin(props) {
   };
 
   return (
+    <div>
     <form onSubmit={submitForm} noValidate autoComplete="off">
       <StyledH2>Login</StyledH2>
       <StyledFormControl>
@@ -88,6 +90,8 @@ function FormLogin(props) {
         }
       </StyledDivLoading>
     </form>
+    <GoogleLoginComp style={{width: '100%', marginTop: '20px!important'}} />
+    </div>
   );
 }
 

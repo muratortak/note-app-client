@@ -4,6 +4,7 @@ import Input from '@material-ui/core/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import Button from '@material-ui/core/Button';
 import axios from 'axios';
+import { GoogleLoginComp } from './LoginGoogle';
 
 //#region useReducer
 const initialState = {
@@ -46,21 +47,24 @@ function FormComponent() {
     }
 
     return (
+    <div>
         <form onSubmit={submitForm} noValidate autoComplete="off">
-        <FormControl>
-            <InputLabel htmlFor="component-simple">Email</InputLabel>
-            <Input id="component-simple" type="text" name="userName" value={userName} onChange={handleChange}></Input>
-        </FormControl>
-        <br />
-        <FormControl>
-            <InputLabel htmlFor="component-simple">Password</InputLabel>
-            <Input id="component-simple" type="password" name="password" value={password} onChange={handleChange}></Input>
-        </FormControl>
-        <br />
-        <FormControl>
-            <Button type="submit">Login</Button>
-        </FormControl>
-    </form>
+            <FormControl>
+                <InputLabel htmlFor="component-simple">Email</InputLabel>
+                <Input id="component-simple" type="text" name="userName" value={userName} onChange={handleChange}></Input>
+            </FormControl>
+            <br />
+            <FormControl>
+                <InputLabel htmlFor="component-simple">Password</InputLabel>
+                <Input id="component-simple" type="password" name="password" value={password} onChange={handleChange}></Input>
+            </FormControl>
+            <br />
+            <FormControl>
+                <Button type="submit">Login</Button>
+            </FormControl>
+        </form>
+        <GoogleLoginComp />
+     </div>
     )
 }
 

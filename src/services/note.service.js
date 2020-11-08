@@ -1,11 +1,9 @@
-import axios from 'axios';
-
 export async function getAllNotes() {
   let notes;
   try {
-    // notes = await axios.get('http://localhost:3000/notes', { withCredentials: true });
+    // notes = await axios.get('http://localhost:3000/note/notes', { withCredentials: true });
     console.log("GET NOTES IN SERVICE");
-    let response = await fetch('http://localhost:3000/notes', {method: 'GET', mode: 'cors', credentials: 'include' } );
+    let response = await fetch('http://localhost:3000/note/notes', {method: 'GET', mode: 'cors', credentials: 'include' } );
     notes = await response.text();
     notes = JSON.parse(notes);
     notes = notes.notes;
@@ -24,7 +22,7 @@ export async function getNewNote() {
 export async function updateNote(note) {
   let result; 
   try {
-    let response = await fetch('http://localhost:3000/updateNote', 
+    let response = await fetch('http://localhost:3000/note/updateNote', 
       {
         method: 'POST', 
         mode: 'cors', 
@@ -49,7 +47,7 @@ export async function saveLocation(note) {
   console.log("inside service before try: ", note);
   try {
     console.log("inside service try before axios call: ", note);
-    let response = await fetch('http://localhost:3000/savelocation', 
+    let response = await fetch('http://localhost:3000/note/savelocation', 
       {
         method: 'POST', 
         mode: 'cors', 
@@ -73,7 +71,7 @@ export async function saveLocation(note) {
 export async function saveNewNote(note) {
   let result; 
   try {
-    let response = await fetch('http://localhost:3000/addNote', 
+    let response = await fetch('http://localhost:3000/note/addNote', 
       {
         method: 'POST', 
         mode: 'cors', 
@@ -98,7 +96,7 @@ export async function saveNewNote(note) {
 export async function deleteNote(noteID) {
   let result; 
   try {
-    let response = await fetch('http://localhost:3000/deleteNote/' + noteID, 
+    let response = await fetch('http://localhost:3000/note/deleteNote/' + noteID, 
       {
         method: 'GET', 
         mode: 'cors', 

@@ -28,6 +28,19 @@ const userLoginFailure = () => ({
   type: userConstants.USER_LOGIN_FAILURE,
 });
 
+const userGoogleLogin = () => ({
+  type: userConstants.USER_GOOGLE_LOGIN,
+});
+
+const userGoogleLoginSuccess = (user) => ({
+  type: userConstants.USER_GOOGLE_LOGIN_SUCCESS,
+  payload: user,
+});
+
+const userGoogleLoginFailure = () => ({
+  type: userConstants.USER_GOOGLE_LOGIN_FAILURE,
+});
+
 
 const userLogout = () => ({
   type: userConstants.USER_LOGOUT,
@@ -94,6 +107,23 @@ export function loginFunc({userName, password}) {
     }
   };
 };
+
+export function googleLogin(email, googleToken) {
+  return async(dispatch) => {
+    dispatch(userGoogleLogin());
+    try {
+      console.log("EMAIL: ", email.email);
+      console.log("TOKEN : ", email.accessToken);
+      var sentUser = {userName: email.email, oauth: {name: 'google', token: email.accessToken, googleId: email.googleId}}
+      const user = await userService.googleLogin(sentUser);
+      dispatch(userGoogleLoginSuccess(user));
+      history.push('/main');
+    } catch (err) {
+      dispatch(userGoogleLoginFailure());
+      history.push('/');
+    }
+  }
+}
 
 export function logout() {
   return async (dispatch) => {

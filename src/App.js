@@ -9,7 +9,7 @@ import ProtectedRoute from './helpers/protected.route';
 
 function App() {
   return (
-    <div className="App">
+    <div className="App" style={{backgroundColor:'#1b2630', height: '95vh'}}>
       <Router history={history}>
         <Switch>
           <Route exact path="/" component={Home} />

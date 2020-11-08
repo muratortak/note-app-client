@@ -245,7 +245,7 @@ function NavbarLogedInd(props) {
 
   return (
     <div className={classes.grow}>
-    <AppBar style={{ backgroundColor:'#ff5722', color: 'white', position: 'relative', marginBottom: '25px', justifyContent: 'center' }}>
+    <AppBar style={{ backgroundColor:'#090c10', color: 'white', position: 'relative', marginBottom: '25px', justifyContent: 'center' }}>
       <Toolbar>
         <IconButton
           edge="start"
