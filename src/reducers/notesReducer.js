@@ -10,10 +10,8 @@ const initialState = {
 export default function notesReducer(state = initialState, action) {
   switch (action.type) {
     case actions.GET_NOTES:
-      // console.log('action payload in notes get ');
       return { ...state, loading: true };
     case actions.GET_NOTES_SUCCESS:
-      console.log("GET NOTES SUCCESS IN REDUCER: ", action.payload.notes);
       return { 
         notes: action.payload.notes, 
         maxZIndex: action.payload.maxZIndex, 
@@ -114,14 +112,12 @@ export default function notesReducer(state = initialState, action) {
         hasError: false
       }
     case actions.UPDATE_LOCATION_SUCCESS:
-      console.log("IN REDUCER UPDATE LOCATION: ", action.payload);
       return {
         notes: action.payload,
         loading: false,
         hasError: false
       }
     case actions.UPDATE_LOCATION_FAILURE:
-      console.log("UPDATE LOCATION FAIL")
       return {
         ...state,
         loading: false,

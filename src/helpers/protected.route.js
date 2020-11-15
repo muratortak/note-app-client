@@ -5,7 +5,6 @@ import NavbarLogedInd from '../components/NavbarLogedInd'
 
 function ProtectedRoute({compoenent: Component, ...rest}) {
     if(rest.user.user === undefined) {
-        console.log("USER MESSAGE: ", rest.user.message);
         return <Route {...rest.user.message} render= {(props) => <Redirect to={{pathname: "/", state: {from: props.location}}} />} />
     } else if(rest.user.user.token !== undefined) {
         return <div><NavbarLogedInd /> <Route {...rest} render= {

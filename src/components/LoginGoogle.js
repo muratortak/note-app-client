@@ -10,14 +10,13 @@ function GoogleLoginComp(props) {
         var email = res.profileObj.email;
         var googleId = res.googleId;
         var image = res.profileObj.imageUrl;
-        console.log("PROFILE OBJ: ", res.profileObj);
         props.dispatch(googleLogin({ email, accessToken: res.getAuthResponse().id_token, googleId, image }));
     }
 
     const onFailure = (res) => {
         console.log(`Login failed res: ${res.error}\n details: ${res.details}`);
     }
-    console.log('client id ', clientId);
+    
     return (
         <div style={{width: '100%'}}>
             <GoogleLogin

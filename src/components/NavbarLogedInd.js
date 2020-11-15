@@ -122,7 +122,6 @@ function NavbarLogedInd(props) {
   };
 
   const handleProfileMenuOpen = (event) => {
-    console.log('Handle profile menu open: ', event.currentTarger);
     setAnchorEl(event.currentTarget);
   };
 

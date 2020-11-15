@@ -41,7 +41,6 @@ export default function userReducer(state = initialState, action) {
     case actions.USER_UPDATE_PROFILE:
       return { ...state, loading: true };
     case actions.USER_UPDATE_PROFILE_SUCCESS:
-      console.log("PAYLOAD IN REDUCER: ", action.payload);
       return { user: action.payload, loading: false, hasError: false };
     case actions.USER_UPDATE_PROFILE_FAILURE:
       return { ...state, loading: false, hasError: true };

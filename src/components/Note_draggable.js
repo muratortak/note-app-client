@@ -105,7 +105,6 @@ function Note_draggable(props) {
   
   const saveLocation = (event) => {
     var coord = getNoteLocation(event);
-    console.log('save location: ', coord.x, coord.y);
     const noteLocation = {
       noteID: field._id,
       x: coord.x,
@@ -123,13 +122,11 @@ function Note_draggable(props) {
   }
 
   const deleteNote = () => {
-    console.log("Delete action triggered.");
     var noteID = field._id;
     props.dispatch(deleteNoteFunc(noteID));
   }
 
   const getNoteLocation = (event) => {
-    console.log("field on save content: ", field);
     let style = locationRef.current.style.transform;
     let x = style.substring(style.indexOf('(') + 1, style.indexOf('px,'));
     let y = style.substring(style.indexOf('px,') + 3, style.indexOf('px)'));
