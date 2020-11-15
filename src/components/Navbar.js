@@ -11,9 +11,6 @@ export default function Navbar() {
         <div>
             <AppBar style={{position: 'relative'}}>
                 <ToolBar>
-                {/* <Button 
-                        component={Link}
-                        to="/main">Main</Button> */}
                 </ToolBar>
             </AppBar>  
         </div>

@@ -20,7 +20,7 @@ function Main(props) {
           <UserProfile user={props.user} />
         </Grid>
         <Grid item md={10}>
-          <NotePanel />
+          {/* <NotePanel /> */}
           <Notes />
         </Grid>
       </Grid>

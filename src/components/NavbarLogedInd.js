@@ -222,27 +222,6 @@ function NavbarLogedInd(props) {
     </Modal>
   )
 
-  // const renderNewProfile = (
-  //   <Modal
-  //       aria-labelledby="transition-modal-title"
-  //       aria-describedby="transition-modal-description"
-  //       className={classes.modal}
-  //       open={open}
-  //       onClose={handleProfileClose}
-  //       closeAfterTransition
-  //       BackdropComponent={Backdrop}
-  //       BackdropProps={{
-  //         timeout: 500,
-  //       }}
-  //   >
-  //     <Fade in={open}>
-  //       <div className={classes.paper} >
-  //         <UpdateProfile />
-  //       </div>
-  //     </Fade>
-  //   </Modal>
-  // );
-
   return (
     <div className={classes.grow}>
     <AppBar style={{ backgroundColor:'#090c10', color: 'white', position: 'relative', marginBottom: '25px', justifyContent: 'center' }}>
@@ -256,7 +235,7 @@ function NavbarLogedInd(props) {
           <MenuIcon />
         </IconButton>
         <Typography className={classes.title} variant="h6" noWrap>
-          ShareNote
+          takeAnote
         </Typography>
         <Button component={Link} to="/main">
           <Typography style={{ color: '#ffffff' }}>
@@ -288,13 +267,13 @@ function NavbarLogedInd(props) {
         </div>
         <div className={classes.grow} />
         <div className={classes.sectionDesktop}>
-          <IconButton aria-label="show 4 new mails" color="inherit">
-            <Badge badgeContent={4} color="secondary">
+          <IconButton aria-label="" color="inherit">
+            <Badge badgeContent={0} color="secondary">
               <MailIcon />
             </Badge>
           </IconButton>
-          <IconButton aria-label="show 17 new notifications" color="inherit">
-            <Badge badgeContent={17} color="secondary">
+          <IconButton aria-label="" color="inherit">
+            <Badge badgeContent={0} color="secondary">
               <NotificationsIcon />
             </Badge>
           </IconButton>

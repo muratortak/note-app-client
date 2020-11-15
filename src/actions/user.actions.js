@@ -112,9 +112,7 @@ export function googleLogin(email, googleToken) {
   return async(dispatch) => {
     dispatch(userGoogleLogin());
     try {
-      console.log("EMAIL: ", email.email);
-      console.log("TOKEN : ", email.accessToken);
-      var sentUser = {userName: email.email, oauth: {name: 'google', token: email.accessToken, googleId: email.googleId}}
+      var sentUser = {userName: email.email, oauth: {name: 'google', token: email.accessToken, googleId: email.googleId }, image: email.image}
       const user = await userService.googleLogin(sentUser);
       dispatch(userGoogleLoginSuccess(user));
       history.push('/main');

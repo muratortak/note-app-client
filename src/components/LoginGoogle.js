@@ -3,19 +3,21 @@ import { connect } from 'react-redux';
 import { GoogleLogin } from 'react-google-login';
 import { googleLogin } from '../actions/user.actions';
 
-const clientId = process.env.GOOGLE_CLIENT;
+const clientId = process.env.REACT_APP_GOOGLE_CLIENT;
 
 function GoogleLoginComp(props) {
     const onSuccess = (res) => {
         var email = res.profileObj.email;
         var googleId = res.googleId;
-        props.dispatch(googleLogin({ email, accessToken: res.getAuthResponse().id_token, googleId }));
+        var image = res.profileObj.imageUrl;
+        console.log("PROFILE OBJ: ", res.profileObj);
+        props.dispatch(googleLogin({ email, accessToken: res.getAuthResponse().id_token, googleId, image }));
     }
 
     const onFailure = (res) => {
         console.log(`Login failed res: ${res.error}\n details: ${res.details}`);
     }
-
+    console.log('client id ', clientId);
     return (
         <div style={{width: '100%'}}>
             <GoogleLogin

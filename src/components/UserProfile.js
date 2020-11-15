@@ -7,7 +7,7 @@ const StyledCardMedia = styled(CardMedia)`
 `;
 
 function UserProfile(props) {
-  
+  var title = props.user.user.userName.toString().substring(0, props.user.user.userName.toString().indexOf('@'));
   return (
     <Grid container spacing={2}>
       <Grid item xl={10} lg={10} md={10} sm={10} xs={10}>
@@ -18,16 +18,16 @@ function UserProfile(props) {
               alt="User PP"
               height="200"
               image={props.user.user.image}
-              title={props.user.user.userName}
+              title={'asd'}
             />
             <CardContent>
-              <Typography gutterBottom variant="h5" component="h2">
-                {props.user.user.userName}
+              <Typography gutterBottom variant="h5" component="h5">
+                {title}
               </Typography>
               <Typography gutterBottom variant="body2" color="textSecondary" component="p">
                 {props.user.user.description}
                 <br />
-                {props.user.user.email}
+                {props.user.user.userName}
               </Typography>
             </CardContent>
           </CardActionArea>
