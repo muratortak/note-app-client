@@ -37,7 +37,7 @@ function FormComponent() {
 
     const submitForm = (event) => {
         event.preventDefault();
-        axios.post('http://localhost:3000/login', state)
+        axios.post(`${REACT_APP_AWS_URI}login`, state)
         .then(res => {
             console.log('login success: ', res);
             

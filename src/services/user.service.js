@@ -1,9 +1,10 @@
 import axios from 'axios';
+const REACT_APP_AWS_URI = process.env.REACT_APP_AWS_URI; 
 
 export async function registerUser(registerForm) {
   let user;
   try {
-    let response = await fetch('http://localhost:3000/user/signup', {
+    let response = await fetch(`${REACT_APP_AWS_URI}user/signup`, {
       method: 'POST',
       mode: 'cors',
       headers: { 'Content-Type': 'application/json'},
@@ -22,7 +23,7 @@ export async function registerUser(registerForm) {
 export async function login(user) {
   let usr;
   try {
-    let response = await fetch('http://localhost:3000/user/login', {
+    let response = await fetch(`${REACT_APP_AWS_URI}user/login`, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -42,7 +43,7 @@ export async function login(user) {
 export async function googleLogin(user) {
   let usr;
   try {
-    let response = await fetch('http://localhost:3000/user/loginoauth', {
+    let response = await fetch(`${REACT_APP_AWS_URI}user/loginoauth`, {
       method: 'POST',
       mode: 'cors',
       credentials: 'include',
@@ -62,7 +63,7 @@ export async function googleLogin(user) {
 
 export async function logout() {
   try {
-    await fetch('http://localhost:3000/user/logout', {method: 'POST', credentials: 'include', mode: 'cors', headers: {'Content-Type': 'application/json'}});
+    await fetch(`${REACT_APP_AWS_URI}user/logout`, {method: 'POST', credentials: 'include', mode: 'cors', headers: {'Content-Type': 'application/json'}});
   } catch (err) {
     console.log('ERR ON LOGOUT ', err);
   }
@@ -71,7 +72,7 @@ export async function logout() {
 export async function getMe() {
   let me;
   try {
-    me = await axios.post('http://localhost:3000/user/me');
+    me = await axios.post(`${REACT_APP_AWS_URI}user/me`);
   } catch (err) {
     console.log('USER SERVOCE ERR: ', err);
   }
@@ -81,7 +82,7 @@ export async function getMe() {
 export async function updateProfile(user) {
   let me;
   try {
-    me = await fetch('http://localhost:3000/user/updateme', {
+    me = await fetch(`${REACT_APP_AWS_URI}user/updateme`, {
       method: 'POST', 
       credentials: 'include', 
       mode: 'cors', 
@@ -100,7 +101,7 @@ export async function updateProfile(user) {
 export async function unlockPWD(pwd) {
   let unlocked;
   try {
-    unlocked = await fetch('http://localhost:3000/user/unlockpwd', {
+    unlocked = await fetch(`${REACT_APP_AWS_URI}user/unlockpwd`, {
       method: 'POST', 
       credentials: 'include', 
       mode: 'cors', 

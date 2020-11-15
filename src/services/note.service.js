@@ -1,7 +1,9 @@
+const REACT_APP_AWS_URI = process.env.REACT_APP_AWS_URI;
+
 export async function getAllNotes() {
   let notes;
   try {
-    let response = await fetch('http://localhost:3000/note/notes', {method: 'GET', mode: 'cors', credentials: 'include' } );
+    let response = await fetch(`${REACT_APP_AWS_URI}note/notes`, {method: 'GET', mode: 'cors', credentials: 'include' } );
     notes = await response.text();
     notes = JSON.parse(notes);
     notes = notes.notes;
@@ -19,7 +21,7 @@ export async function getNewNote() {
 export async function updateNote(note) {
   let result; 
   try {
-    let response = await fetch('http://localhost:3000/note/updateNote', 
+    let response = await fetch(`${REACT_APP_AWS_URI}note/updateNote`, 
       {
         method: 'POST', 
         mode: 'cors', 
@@ -40,7 +42,7 @@ export async function updateNote(note) {
 export async function saveLocation(note) {
   let result;
   try {
-    let response = await fetch('http://localhost:3000/note/savelocation', 
+    let response = await fetch(`${REACT_APP_AWS_URI}note/savelocation`, 
       {
         method: 'POST', 
         mode: 'cors', 
@@ -63,7 +65,7 @@ export async function saveLocation(note) {
 export async function saveNewNote(note) {
   let result; 
   try {
-    let response = await fetch('http://localhost:3000/note/addNote', 
+    let response = await fetch(`${REACT_APP_AWS_URI}note/addNote`, 
       {
         method: 'POST', 
         mode: 'cors', 
@@ -87,7 +89,7 @@ export async function saveNewNote(note) {
 export async function deleteNote(noteID) {
   let result; 
   try {
-    let response = await fetch('http://localhost:3000/note/deleteNote/' + noteID, 
+    let response = await fetch(`${REACT_APP_AWS_URI}note/deleteNote/${noteID}`, 
       {
         method: 'GET', 
         mode: 'cors', 
